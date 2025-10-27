@@ -6,6 +6,7 @@ import time
 import tkinter as tk
 from tkinter import ttk, messagebox, simpledialog, filedialog
 from widgets.custom_label import EditableLabel
+from string import ascii_letters
 
 DATA_FILE = "access_matrix.json"
 LOG_FILE = "admin_log.txt"
@@ -48,7 +49,7 @@ def save_matrix(data, path=DATA_FILE):
 
 
 def validate_object_token(tok):
-    return len(tok) == 1 and tok.isalpha()
+    return len(tok) == 1 and tok.isalpha() and tok in ascii_letters
 
 
 def parse_subjects(text):
