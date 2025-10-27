@@ -161,9 +161,9 @@ class AdminApp(tk.Tk):
 
         # Split frames
         self.left_frame = ttk.Frame(self)
+        self.right_frame = ttk.Frame(self)
         self.left_frame.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=10, pady=10)
-        self.right_frame = ttk.Frame(self, width=300)
-        self.right_frame.pack(side=tk.RIGHT, fill=tk.Y, padx=10, pady=10)
+        self.right_frame.pack(side=tk.RIGHT, fill=tk.BOTH, expand=True, padx=10, pady=10)
 
         self.left_frame.grid_rowconfigure(0, weight=1)
         self.left_frame.grid_columnconfigure(0, weight=1)
@@ -195,7 +195,19 @@ class AdminApp(tk.Tk):
         self.build_matrix_ui()
 
     def build_controls(self):
-        rf = self.right_frame
+        self.controls_canvas = tk.Canvas(self.right_frame)
+        self.controls_scroll_y = ttk.Scrollbar(self.right_frame, orient=tk.VERTICAL, command=self.controls_canvas.yview)
+        self.controls_canvas.configure(yscrollcommand=self.controls_scroll_y.set)
+        self.controls_canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+        self.controls_scroll_y.pack(side=tk.RIGHT, fill=tk.Y)
+        
+        self.update_idletasks()
+
+        rf = ttk.Frame(self.controls_canvas)
+        self.controls_canvas.create_window((0, 0), window=rf, anchor=tk.NW, width=self.controls_canvas.winfo_width() - 10)
+
+        rf.bind("<Configure>", lambda e: self.controls_canvas.configure(scrollregion=self.controls_canvas.bbox("all")))
+        
         ttk.Label(rf, text="Управление субъектами/объектами", font=("Arial", 12, "bold")).pack(pady=5)
 
         sub_frame = ttk.Labelframe(rf, text="Добавить субъект")

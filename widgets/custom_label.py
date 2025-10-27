@@ -1,7 +1,7 @@
 import tkinter as tk
 
 class EditableLabel(tk.Frame):
-    def __init__(self, parent, text="", max_length=20, **kwargs):
+    def __init__(self, parent, text="", max_length=10, **kwargs):
         super().__init__(parent)
         self.text = text
         self.max_length = max_length
@@ -23,7 +23,7 @@ class EditableLabel(tk.Frame):
         self.label.pack_forget()
         
         # Создаем Entry с полным текстом
-        self.entry = tk.Entry(self)
+        self.entry = tk.Entry(self, width=10)
         self.entry.insert(0, self.text)
         self.entry.pack(fill='x')
         self.entry.focus()
